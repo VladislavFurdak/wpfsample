@@ -7,7 +7,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="55*"/>
         </Grid.ColumnDefinitions>
-            <views:UserView Margin="0,0,-1,0"    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <views:UserView 
+                HorizontalContentAlignment="Stretch" 
+                VerticalContentAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
