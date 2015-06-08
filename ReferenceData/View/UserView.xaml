@@ -64,7 +64,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}"  Visibility="Hidden"  />
                     <DataGridTextColumn Header="FirstName" Binding="{Binding FirstName}" />
-                    <DataGridTextColumn Header="SeondName" Binding="{Binding SecondName}" />
+                    <DataGridTextColumn Header="SecondName" Binding="{Binding SecondName}" />
                     <DataGridTextColumn Header="Country" Binding="{Binding Country}" />
                     <DataGridTextColumn Header="SubDivision" Binding="{Binding Subdivision}" />
                     <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
