@@ -1,0 +1,9 @@
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\Model\ReferenceData.sdf
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\ReferenceData.DAL.dll.config
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\ReferenceData.DAL.dll
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\ReferenceData.DAL.pdb
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\EntityFramework.dll
+D:\EPAM\ReferenceData\ReferenceData.DAL\bin\Debug\EntityFramework.xml
+D:\EPAM\ReferenceData\ReferenceData.DAL\obj\Debug\ReferenceData.DAL.dll
+D:\EPAM\ReferenceData\ReferenceData.DAL\obj\Debug\ReferenceData.DAL.pdb
+D:\EPAM\ReferenceData\ReferenceData.DAL\obj\Debug\ReferenceData.DAL.csprojResolveAssemblyReference.cache

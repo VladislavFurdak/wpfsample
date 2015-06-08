@@ -1,0 +1,5 @@
+D:\EPAM\ReferenceData\ReferenceData.Tests\bin\Debug\ReferenceData.Tests.dll
+D:\EPAM\ReferenceData\ReferenceData.Tests\bin\Debug\ReferenceData.Tests.pdb
+D:\EPAM\ReferenceData\ReferenceData.Tests\obj\Debug\ReferenceData.Tests.csprojResolveAssemblyReference.cache
+D:\EPAM\ReferenceData\ReferenceData.Tests\obj\Debug\ReferenceData.Tests.dll
+D:\EPAM\ReferenceData\ReferenceData.Tests\obj\Debug\ReferenceData.Tests.pdb
