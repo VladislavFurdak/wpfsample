@@ -15,7 +15,7 @@ namespace ReferenceData.Validation
     {
         public override ValidationResult Validate(dynamic value, System.Globalization.CultureInfo cultureInfo)
         {
-            return  ((object)value == null) || value.Value == null ? new ValidationResult(false, "Please select value") : ValidationResult.ValidResult;
+            return  ((object)value == null) || value < 1 ? new ValidationResult(false, "Please select value") : ValidationResult.ValidResult;
         }
     }
 }

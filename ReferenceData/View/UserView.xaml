@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="789.727" Width="Auto"
     xmlns:validation="clr-namespace:ReferenceData.Validation">
-        <!--<StackPanel Orientation="Vertical" Margin="4,4,4,0" Width="614" Height="637" VerticalAlignment="Top" >-->
     <Grid ShowGridLines="True" Margin="0,0,0,131"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -50,20 +49,20 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <Label Content="Country:" Margin="0,0,4,0" Width="89"/>
-                <ComboBox Width="120" x:Name="Country" ItemsSource="{Binding GetSimpleCountryList, Mode=OneWay}"   SelectedValuePath="Key" 
+                <ComboBox Width="120" x:Name="Country" ItemsSource="{Binding GetSimpleCountryList, Mode=OneWay}"  SelectedValuePath="Key" 
             			DisplayMemberPath="Value.Description" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
-                    <ComboBox.SelectedItem>
-                        <Binding Path="SelectedItem" ElementName="CountryId" Mode="OneWay">
+                    <ComboBox.SelectedValue> 
+                        <Binding Path="SelectedItem.CountryId" Mode="OneWay" >
                             <Binding.ValidationRules>
                                 <validation:SelectionValidationRule  ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
-                    </ComboBox.SelectedItem>
+                    </ComboBox.SelectedValue>
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">

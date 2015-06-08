@@ -55,7 +55,7 @@ namespace ReferenceData.View
             });
         }
         /// <summary>
-        /// Fiered when Country dropdown have been selected
+        /// Fiered when Country dropdown has been selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -68,15 +68,15 @@ namespace ReferenceData.View
 
                 if (context == null || context.SelectedItem == null) return;
 
-                context.SelectedItem.countryId = item.Value.Id;
+                //context.SelectedItem.countryId = item.Value.Id;
 
                 var subdivisions = context.busSubdivision.GetAllByCountryId(item.Key).ToDictionary(x => x.Id);
                 this.Subdivision.ItemsSource = subdivisions;
-                context.NotifyPropertyChanged("SelectedItem.CountryId");
+                context.NotifyPropertyChanged("SelectedItem");
             }
         }
         /// <summary>
-        /// Fiered when Subdivision dropdown have been selected
+        /// Fiered when Subdivision dropdown has been selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
