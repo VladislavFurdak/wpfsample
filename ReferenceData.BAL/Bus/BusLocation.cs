@@ -16,7 +16,6 @@ namespace ReferenceData.BAL
     public class BusLocation : CommonBus<Location, int>, IBusLocation
     {
         private readonly IRepoLocations locationRepo;
-
         public BusLocation(IRepoLocations locationRepo)
             : base(locationRepo, null, null, locationRepo)
         {
@@ -25,14 +24,16 @@ namespace ReferenceData.BAL
 
         public Dictionary<int, LocationBusModel> GetSimpleLocationList()
         {
-            var locations = this.GetAll().Select(x => Mapper.Map<LocationBusModel>(x)).ToDictionary(x => x.Id);
-            return locations;
+         return this.GetAll().
+                Select(x => Mapper.Map<LocationBusModel>(x)).
+                ToDictionary(x => x.Id);
         }
-
 
         public IEnumerable<LocationBusModel> GetBySubdivisionId(int subivisionId)
         {
-            return locationRepo.GetAllBySubdivisionId(subivisionId).Select(x => Mapper.Map<LocationBusModel>(x));
+         return locationRepo.
+                GetAllBySubdivisionId(subivisionId).
+                Select(x => Mapper.Map<LocationBusModel>(x));
         }
     }
 }

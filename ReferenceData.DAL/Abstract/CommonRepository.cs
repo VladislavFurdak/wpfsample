@@ -1,9 +1,6 @@
 ﻿using ReferenceData.DAL.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReferenceData.DAL
 {
@@ -35,22 +32,18 @@ namespace ReferenceData.DAL
 
         public virtual IEnumerable<T> GetItems()
         {
-            List<T> entities;
             using (var connection = new ReferenceDataEntities())
             {
-                entities = connection.Set<T>().ToList();
+               return connection.Set<T>().ToList();
             }
-            return entities;
         }
 
         public virtual T GetItem(int id)
-        {
-            T entity;
+        { 
             using (var connection = new ReferenceDataEntities())
             {
-                entity = connection.Set<T>().FirstOrDefault(x => x.Id == id);
+                return connection.Set<T>().FirstOrDefault(x => x.Id == id);
             }
-            return entity;
         }
     }
 }

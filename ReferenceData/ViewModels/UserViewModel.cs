@@ -1,11 +1,6 @@
 ﻿using ReferenceData.DAL.Model;
 using ReferenceData.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReferenceData.BAL.BusModels
 {
@@ -16,7 +11,7 @@ namespace ReferenceData.BAL.BusModels
         /// </summary>
         public int? countryIdOld;
         public int? locationIdOld;
-        public int? _subdivisionIdOld;
+        public int? subdivisionIdOld;
         public string FirstNameOld;
         public string SecondNameOld;
         public string CountryOld;
@@ -31,10 +26,10 @@ namespace ReferenceData.BAL.BusModels
             get
             {
                 return !(countryIdOld == countryId &&
-                     locationIdOld == locationId &&
-                     _subdivisionIdOld == SubdivisionId &&
-                    FirstNameOld == FirstName &&
-                    SecondNameOld == SecondName);
+                        locationIdOld == locationId &&
+                        subdivisionIdOld == SubdivisionId &&
+                        FirstNameOld == FirstName &&
+                        SecondNameOld == SecondName);
             }
         }
 
@@ -69,14 +64,14 @@ namespace ReferenceData.BAL.BusModels
         /// </summary>
         public void SetNotModified()
         {
-          countryIdOld = countryId;
-          locationIdOld = locationId;
-         _subdivisionIdOld = SubdivisionId;
-          FirstNameOld = FirstName;
-          SecondNameOld = SecondName;
-          CountryOld = Country;
-          SubdivisionOld = Subdivision;
-          LocationOld = Location;
+            countryIdOld = countryId;
+            locationIdOld = locationId;
+            subdivisionIdOld = SubdivisionId;
+            FirstNameOld = FirstName;
+            SecondNameOld = SecondName;
+            CountryOld = Country;
+            SubdivisionOld = Subdivision;
+            LocationOld = Location;
         }
 
         /// <summary>
@@ -86,7 +81,7 @@ namespace ReferenceData.BAL.BusModels
         {
             countryId = countryIdOld;
             locationId = locationIdOld;
-            SubdivisionId = _subdivisionIdOld;
+            SubdivisionId = subdivisionIdOld;
             FirstName = FirstNameOld;
             SecondName = SecondNameOld;
             Country = CountryOld;
@@ -107,7 +102,7 @@ namespace ReferenceData.BAL.BusModels
 
         public int? locationId { get; set; }
 
-        public int? _subdivisionId { get; set; }
+        public int? subdivisionId { get; set; }
 
         public int? LocationId
         {
@@ -126,11 +121,11 @@ namespace ReferenceData.BAL.BusModels
         {
             get
             {
-                return _subdivisionId;
+                return subdivisionId;
             }
             set
             {
-                _subdivisionId = value;
+                subdivisionId = value;
                 NotifyPropertyChanged("SubdivisionId");
    
             }
@@ -163,7 +158,7 @@ namespace ReferenceData.BAL.BusModels
         public UserViewModel SetUser(User u)
         {
             this.Id = u.Id;
-            this._subdivisionId = u.SubDivisionId;
+            this.subdivisionId = u.SubDivisionId;
             this.countryId = u.CountryId;
             this.FirstName = u.FirstName;
             this.SecondName = u.SecondName;

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReferenceData.BAL;
 using ReferenceData.BAL.BusModels;
 using Microsoft.Practices.Unity;

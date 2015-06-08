@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ReferenceData.DAL.Model;
-using ReferenceData.BAL;
 using ReferenceData.DAL;
 using ReferenceData.BAL.BusModels;
 using AutoMapper;
@@ -24,16 +21,17 @@ namespace ReferenceData.BAL
         public BusUser(IRepoUser userRepo, IRepoCountry repoCountry, IRepoLocations repoLocation, IRepoSubdivision repoSubdiv)
             : base(userRepo, userRepo, userRepo, userRepo)
         {
-            this.userRepo = userRepo;
-            this.repoCountry = repoCountry;
-            this.repoLocation = repoLocation;
-            this.repoSubdiv = repoSubdiv;
+          this.userRepo = userRepo;
+          this.repoCountry = repoCountry;
+          this.repoLocation = repoLocation;
+          this.repoSubdiv = repoSubdiv;
         }
 
-        public  Dictionary<int, UserBusModel> GetSimpleUserList()
+        public  Dictionary<int, UserBusModel> UserList()
         {
-            var users = this.GetAll().Select(x => Mapper.Map<UserBusModel>(x)).ToDictionary(x => x.Id);
-            return users;
+          return this.GetAll().
+                 Select(x => Mapper.Map<UserBusModel>(x)).
+                 ToDictionary(x => x.Id);
         }
 
         public UserBusModel AddBusModel(UserBusModel model)

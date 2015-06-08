@@ -1,19 +1,9 @@
 ﻿using Microsoft.Practices.Unity;
 using ReferenceData.BAL;
-using ReferenceData.DAL;
-using ReferenceData.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ReferenceData
 {
-   
-   
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -22,7 +12,7 @@ namespace ReferenceData
         void App_Startup(object sender, StartupEventArgs e)
         {
             base.OnStartup(e);
-             UnityContainer.Resolve<MainWindow>().Show();
+            UnityContainer.Resolve<MainWindow>().Show();
         }
 
         public static UnityContainer UnityContainer
@@ -40,5 +30,5 @@ namespace ReferenceData
             }
         }
     }
-  
+
 }

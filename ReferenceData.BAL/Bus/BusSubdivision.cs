@@ -2,11 +2,8 @@
 using ReferenceData.BAL.BusModels;
 using ReferenceData.DAL;
 using ReferenceData.DAL.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReferenceData.BAL
 {
@@ -25,13 +22,16 @@ namespace ReferenceData.BAL
 
         public Dictionary<int, SubdivisionBusModel> GetSimpleSubdivisionList()
         {
-            var subdivisions = this.GetAll().Select(x => Mapper.Map<SubdivisionBusModel>(x)).ToDictionary(x=>x.Id);
-            return subdivisions;
+          return GetAll().
+                 Select(x => Mapper.Map<SubdivisionBusModel>(x)).
+                 ToDictionary(x=>x.Id);
         }
 
         public IEnumerable<SubdivisionBusModel> GetAllByCountryId(int countryId)
         {
-            return subdivisionRepo.GetAllByCountryId(countryId).Select(x => Mapper.Map<SubdivisionBusModel>(x));
+           return subdivisionRepo.
+                  GetAllByCountryId(countryId).
+                  Select(x => Mapper.Map<SubdivisionBusModel>(x));
         }
     }
 }

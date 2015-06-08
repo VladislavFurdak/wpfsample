@@ -13,7 +13,9 @@ namespace ReferenceData.DAL
         {
             using (var connection = new ReferenceDataEntities())
             {
-               return connection.Set<Subdivision>().Where(x => x.CountryId == Id).ToList();
+               return connection.Set<Subdivision>().
+                                 Where(x => x.CountryId == Id).
+                                 ToList();
             }
         }
     }

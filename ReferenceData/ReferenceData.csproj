@@ -78,10 +78,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\DelegateComand.cs" />
-    <Compile Include="IMainWindow.cs" />
-    <Compile Include="MapperInitialization.cs" />
-    <Compile Include="UnityRegistration.cs" />
-    <Compile Include="Validation\PreValidator.cs" />
+    <Compile Include="Interfaces\IMainVIewModel.cs" />
+    <Compile Include="Interfaces\IMainWindow.cs" />
+    <Compile Include="Bundles\MapperInitialization.cs" />
+    <Compile Include="Bundles\UnityRegistration.cs" />
     <Compile Include="Validation\SelectionValidationRule.cs" />
     <Compile Include="Validation\TextBoxValidationRule.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

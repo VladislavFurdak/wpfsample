@@ -1,23 +1,12 @@
 ﻿using Microsoft.Practices.Unity;
-using ReferenceData.BAL;
 using ReferenceData.BAL.BusModels;
-using ReferenceData.Validation;
 using ReferenceData.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ReferenceData.View
 {
@@ -33,8 +22,7 @@ namespace ReferenceData.View
             base.OnInitialized(e);
             this.DataContext = App.UnityContainer.Resolve<MainViewModel>();
             viewModel = (MainViewModel)this.DataContext;
-            viewModel.GridBindingComplete += () => this.Dispatcher.Invoke(()=>this.progress.Visibility = Visibility.Hidden);
-            viewModel.RefreshGrid += Refresh;
+            viewModel.SeekUsersCompleted += () => this.Dispatcher.Invoke(()=>this.progress.Visibility = Visibility.Hidden);
         }
 
         public UserView()
@@ -73,6 +61,8 @@ namespace ReferenceData.View
 
                 var subdivisions = context.busSubdivision.GetAllByCountryId(item.Key).ToDictionary(x => x.Id);
                 this.Subdivision.ItemsSource = subdivisions;
+
+                this.Location.ItemsSource = null;
                 context.NotifyPropertyChanged("SelectedItem");
             }
         }
@@ -89,7 +79,7 @@ namespace ReferenceData.View
                 var context = this.DataContext as MainViewModel;
                 if (context == null || context.SelectedItem == null) return;
 
-                context.SelectedItem._subdivisionId = item.Value.Id;
+                context.SelectedItem.subdivisionId = item.Value.Id;
 
                 var locations = context.busLocation.GetBySubdivisionId(item.Key).ToDictionary(x => x.Id);
                 this.Location.ItemsSource = locations;

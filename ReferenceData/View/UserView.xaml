@@ -3,19 +3,64 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="789.727" Width="Auto"
     xmlns:validation="clr-namespace:ReferenceData.Validation">
-
-    <Grid ShowGridLines="True" Margin="0,0,0,131"> 
+    <UserControl.Resources>
+            <Style  TargetType="Button">
+                <Setter Property="Width" Value="100" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Margin" Value="10,10,20,0" />
+            </Style>
+            <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="140" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Margin" Value="10,10,20,0" />
+            </Style>
+            <Style  TargetType="TextBox">
+                <Setter Property="Width" Value="140" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Margin" Value="10,10,20,0" />
+            </Style>
+            <Style  TargetType="Label">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Margin" Value="10,10,10,0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid> 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="1.35*"/>
         </Grid.RowDefinitions>
-        <ProgressBar Grid.Column="0" Grid.Row="0"  x:Name="progress" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="645" Margin="0,2,0,0" Grid.ColumnSpan="2" IsIndeterminate="True" IsEnabled="True" />
-
-        <DataGrid x:Name="UserGrid" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Height="263"     VirtualizingStackPanel.IsVirtualizing="true" ItemsSource="{Binding GetSimpleUserList, Mode=TwoWay, IsAsync=True}" AutoGenerateColumns="False"   EnableRowVirtualization="True"  EnableColumnVirtualization="True" IsReadOnly="True" Margin="-4,0,4,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <StatusBarItem HorizontalContentAlignment="Stretch" Height="15">
+            <ProgressBar Grid.Column="0"
+                     Grid.Row="0" 
+                     x:Name="progress"
+                     HorizontalAlignment="Left"
+                     Height="15"
+                     VerticalAlignment="Top"
+                     Grid.ColumnSpan="3" 
+                     IsIndeterminate="True"
+                     Width="200"
+                     IsEnabled="True"  />
+        </StatusBarItem>
+        <DataGrid x:Name="UserGrid" 
+                  VerticalAlignment="Top" 
+                  Grid.Column="0" 
+                  Grid.Row="1" 
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  Height="263"     
+                  VirtualizingStackPanel.IsVirtualizing="true" 
+                  ItemsSource="{Binding UserList, Mode=TwoWay, IsAsync=True}" 
+                  AutoGenerateColumns="False"
+                  EnableRowVirtualization="True" 
+                  EnableColumnVirtualization="True" 
+                  IsReadOnly="True"
+                  Grid.ColumnSpan="4">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}"  Visibility="Hidden"  />
                     <DataGridTextColumn Header="FirstName" Binding="{Binding FirstName}" />
@@ -25,39 +70,52 @@
                     <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
                 </DataGrid.Columns>
             </DataGrid>
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" Margin="4,10,4,169" Grid.ColumnSpan="2" >
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" Grid.ColumnSpan="3" >
             <StackPanel Orientation="Horizontal">
-                <Label Content="FirstName:" Margin="0,0,4,0" Width="89"/>
-                <TextBox Width="241" x:Name="FirstName">
+                <Label Content="FirstName:"
+                     Grid.Column="1"
+                     Grid.Row="1" />
+                <TextBox x:Name="FirstName"
+                         Grid.Column="2"
+                         Grid.Row="1">
                     <TextBox.Text>
                         <Binding Path="SelectedItem.FirstName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>
-                                <validation:TextBoxValidationRule />
+                                <validation:TextBoxValidationRule ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <Label Content="SecondName:" Margin="0,0,4,0" Width="89"/>
-                <TextBox Width="241" x:Name="SecondName">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="SecondName:" 
+                       Grid.Column="1"
+                       Grid.Row="1"/>
+                <TextBox  x:Name="SecondName" 
+                          Grid.Column="2"
+                          Grid.Row="1">
                     <Binding Path="SelectedItem.SecondName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                         <Binding.ValidationRules>
-                            <validation:TextBoxValidationRule />
+                            <validation:TextBoxValidationRule ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
                     </TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <Label Content="Country:" Margin="0,0,4,0" Width="89"/>
-                <ComboBox Width="120" x:Name="Country" ItemsSource="{Binding GetSimpleCountryList, Mode=OneWay}"  SelectedValuePath="Key" 
-            			DisplayMemberPath="Value.Description" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" >
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="Country:" />
+                <ComboBox
+                	x:Name="Country"
+                	ItemsSource="{Binding GetSimpleCountryList, Mode=OneWay}" 
+                	SelectedValuePath="Key" 
+                	DisplayMemberPath="Value.Description" 
+                	VirtualizingPanel.IsVirtualizing="True" 
+                	VirtualizingPanel.VirtualizationMode="Recycling" >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
-                    <ComboBox.SelectedValue> 
+                    <ComboBox.SelectedValue>
                         <Binding Path="SelectedItem.CountryId" Mode="OneWay" >
                             <Binding.ValidationRules>
                                 <validation:SelectionValidationRule  ValidatesOnTargetUpdated="True" />
@@ -66,10 +124,18 @@
                     </ComboBox.SelectedValue>
                 </ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <Label Content="Subdivision:" Margin="0,0,4,0" Width="79"/>
-                <ComboBox Margin="10,0,0,0" Width="120"  x:Name="Subdivision" ItemsSource="{Binding GetSimpleSubdivisionList, Mode=OneWay}" SelectedValue="{Binding SelectedItem.SubdivisionId, Mode=OneWay}"  SelectedValuePath="Key" 
-            			DisplayMemberPath="Value.Description" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"  >
+            <StackPanel Orientation="Horizontal" >
+                <Label  Content="Subdivision:" 
+                        Grid.Column="1"
+                        Grid.Row="1"/>
+                <ComboBox  
+                          x:Name="Subdivision" 
+                          ItemsSource="{Binding GetSimpleSubdivisionList, Mode=OneWay}" 
+                          SelectedValue="{Binding SelectedItem.SubdivisionId, Mode=OneWay}" 
+                          SelectedValuePath="Key" 
+            			  DisplayMemberPath="Value.Description"
+                          VirtualizingPanel.IsVirtualizing="True" 
+                          VirtualizingPanel.VirtualizationMode="Recycling" >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
@@ -77,24 +143,27 @@
                     </ComboBox.ItemsPanel> 
                 </ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <Label Content="Location:" Margin="0,0,4,0" Width="90" />
-                <ComboBox   Width="119" x:Name="Location" ItemsSource="{Binding GetSimpleLocationList, Mode=OneWay}"  SelectedValue="{Binding SelectedItem.LocationId, Mode= TwoWay}"  SelectedValuePath="Key"  
-            			DisplayMemberPath="Value.Description" Margin="0,0,0,10" Height="24" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"  >
+            <StackPanel Orientation="Horizontal" >
+                <Label Content="Location:" />
+                <ComboBox   x:Name="Location"
+                            ItemsSource="{Binding GetSimpleLocationList, Mode=OneWay}" 
+                            SelectedValue="{Binding SelectedItem.LocationId, Mode= TwoWay}"  
+                            SelectedValuePath="Key"  
+            			    DisplayMemberPath="Value.Description"
+                            VirtualizingPanel.IsVirtualizing="True"
+                            VirtualizingPanel.VirtualizationMode="Recycling"  >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
-                   
                 </ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Height="19" RenderTransformOrigin="0.499,0.689">
-                <Button Content="New"  Command="{Binding NewCommand }" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Width="50"/>
-                <Button Content="Save" Command="{Binding SaveCommand }"  Width="50" />
-                <Button Content="Cancel"  Command="{Binding CancelCommand }"  Width="50" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Content="New" Command="{Binding NewCommand }"  />
+                <Button Content="Save" Command="{Binding SaveCommand }"  />
+                <Button Content="Cancel"  Command="{Binding CancelCommand }" />
             </StackPanel>
-       
     </StackPanel>
     </Grid>
 </UserControl>

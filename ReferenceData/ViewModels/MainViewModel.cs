@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using OliverCode.Commands;
 using System.ComponentModel;
@@ -10,14 +9,10 @@ using ReferenceData.BAL;
 using ReferenceData.BAL.BusModels;
 using System.Collections.ObjectModel;
 using AutoMapper;
+using System.Threading;
 
 namespace ReferenceData.ViewModels
 {
-
-    public interface IMainViewModel
-    {
-    }
-
     /// <summary>
     //  Application main viewmodel
     /// </summary>
@@ -27,26 +22,27 @@ namespace ReferenceData.ViewModels
         /// <summary>
         /// Injected services that can be used in this class and in the appropriate view class
         /// </summary>
-        public readonly IBusCountry busCountry;
-        public readonly IBusSubdivision busSubdivision;
-        public readonly IBusLocation busLocation;
-        public readonly IBusUser busUser;
+        public IBusCountry busCountry { get; private set; }
+        public IBusSubdivision busSubdivision { get; private set; }
+        public IBusLocation busLocation { get; private set; }
+        public IBusUser busUser { get; private set; }
         #endregion
 
         /// <summary>
-        /// Collection that binds to main grid
+        /// Users collection
         /// </summary>
-        public ObservableCollection<UserViewModel> userList;
+        public ObservableCollection<UserViewModel> UserList { get; set; }
 
-        public Dictionary<int, SubdivisionBusModel> getSimpleSubdivisionList;
-        public Dictionary<int, LocationBusModel> getSimpleLocationList;
-        public Dictionary<int, CountryBusModel> getSimpleCountryList;
-        /// <summary>
-        /// The event that can be called when we need to update Users grid
-        /// </summary>
-        public event Action RefreshGrid;
+        public Dictionary<int, SubdivisionBusModel> GetSimpleSubdivisionList { get; private set; }
+        public Dictionary<int, LocationBusModel> GetSimpleLocationList { get; private set; }
+        public Dictionary<int, CountryBusModel> GetSimpleCountryList { get; private set; }
        
         private UserViewModel selected;
+
+        /// <summary>
+        /// Indicates if data is currently loading with async operation
+        /// </summary>
+        private bool contentIsAvaliable = true;
 
         /// <summary>
         /// Currently selected User item
@@ -58,18 +54,22 @@ namespace ReferenceData.ViewModels
                 return selected;
             }
             set
-            {            
+            {
+                if (selected == value) 
+                    return;
                 selected = value;
+
                 if (selected != null)
-                selected.SetNotModified();
+                    selected.SetNotModified();
+
                 NotifyPropertyChanged("SelectedItem");
             }
         }
 
         /// <summary>
-        /// Fired after the binding has stopped
+        /// The event that can be called when we need to update Users grid
         /// </summary>
-        public event Action GridBindingComplete;
+        public event Action SeekUsersCompleted;
 
         /// <summary>
         /// Commands for bottom buttons
@@ -80,6 +80,7 @@ namespace ReferenceData.ViewModels
 
         private bool isDirty;
 
+        #region Commandswrappers
         /// <summary>
         /// Wrapper for the save command
         /// </summary>
@@ -116,15 +117,13 @@ namespace ReferenceData.ViewModels
                 return cancelCommand;
             }
         }
-
+        #endregion Commandswrappers
         /// <summary>
         /// New command execution method
         /// </summary>
         private void NewExecuted()
         {
             SelectedItem = new UserViewModel(this);
-
-            NotifyPropertyChanged("SelectedItem");
             isDirty = true;
         }
 
@@ -133,51 +132,42 @@ namespace ReferenceData.ViewModels
         /// </summary>
         private void SaveExecuted()
         {
+            try
+            {
                 if (SelectedItem == null || SelectedItem.Id == 0)
                 {
                     var added = busUser.AddBusModel(Mapper.Map<UserBusModel>(SelectedItem));
                     if (added != null)
                     {
-                        try
-                        {
-                            var mapToViewNew = Mapper.Map(added, new UserViewModel(this));
-                            userList.Add(mapToViewNew);
-                            isDirty = false;
-                        }
-                        catch (ArgumentException)
-                        {
-                            System.Windows.MessageBox.Show("Please, input correct values");
-                        }
-                        catch
-                        {
-                            System.Windows.MessageBox.Show("Unknown error");
-                        }
-                        RefreshGrid();
+                        var mapToViewNew = Mapper.Map(added, new UserViewModel(this));
+                        UserList.Add(mapToViewNew);
+                        NotifyPropertyChanged("UserList");
+
+                        isDirty = false;
+                        SelectedItem = new UserViewModel(this);
                     }
                 }
                 else
                 {
-                    try
-                    {
-                        var maptoBus = Mapper.Map<UserBusModel>(SelectedItem);
-                        var busUpdated = busUser.UpdateBusModel(maptoBus);
-                        var mapToViewNew = Mapper.Map(busUpdated, new UserViewModel(this));
+                    var maptoBus = Mapper.Map<UserBusModel>(SelectedItem);
+                    var busUpdated = busUser.UpdateBusModel(maptoBus);
+                    var mapToViewNew = Mapper.Map(busUpdated, new UserViewModel(this));
 
-                        var item = userList.FirstOrDefault(x => x.Id == SelectedItem.Id);
-                        var index = userList.IndexOf(item);
-                        userList[index].Apply(mapToViewNew);
-                        SelectedItem = userList[index];
-                        isDirty = false;
-                    }
-                    catch (ArgumentException)
-                    {
-                         System.Windows.MessageBox.Show("Please, input correct values");
-                    }
-                    catch
-                    {
-                        System.Windows.MessageBox.Show("Unknown error");
-                    }
+                    var item = UserList.FirstOrDefault(x => x.Id == SelectedItem.Id);
+                    var index = UserList.IndexOf(item);
+                    UserList[index].Apply(mapToViewNew);
+                    SelectedItem = UserList[index];
+                    isDirty = false;
                 }
+            }
+            catch (ArgumentException)
+            {
+                System.Windows.MessageBox.Show("Please, input correct values");
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Unknown error");
+            }
         }
 
         /// <summary>
@@ -188,6 +178,12 @@ namespace ReferenceData.ViewModels
             isDirty = false;
             SelectedItem.Revert();
             NotifyPropertyChanged("SelectedItem");
+            if (SelectedItem.isDirty) 
+            {
+                //double check for location change if subdivision has been changed
+                SelectedItem.Revert();
+                NotifyPropertyChanged("SelectedItem");
+            }
         }
         /// <summary>
         /// Check whether the save command can be executed 
@@ -195,7 +191,7 @@ namespace ReferenceData.ViewModels
         /// <returns></returns>
         private bool SaveCanExecute()
         {
-            return SelectedItem != null && (isDirty || SelectedItem.isDirty);
+            return contentIsAvaliable && SelectedItem != null && (isDirty || SelectedItem.isDirty);
         }
         /// <summary>
         /// Check whether the new command can be executed 
@@ -203,7 +199,7 @@ namespace ReferenceData.ViewModels
         /// <returns></returns>
         private bool NewCanExecute()
         {
-            return true;
+            return contentIsAvaliable;
         }
         /// <summary>
         /// Check whether the cancel command can be executed 
@@ -223,6 +219,32 @@ namespace ReferenceData.ViewModels
             this.busLocation = busLocation;
             this.busSubdivision = busSubdivision;
             this.SelectedItem = new UserViewModel(this);
+
+            GetSimpleCountryList = busCountry.GetSimpleCountryList();
+            UserList = new ObservableCollection<UserViewModel>();
+
+            var _dispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
+            contentIsAvaliable = false;
+            ThreadPool.QueueUserWorkItem(x =>
+            {
+                var tmp = new ObservableCollection<UserViewModel>();
+                foreach (var user in Users)
+                {
+                    if (user.Id != 0)
+                        tmp.Add(new UserViewModel(this).SetUser(user));
+                }
+
+                _dispatcher.Invoke(new Action(() =>
+                {
+                    UserList = tmp;
+                    NotifyPropertyChanged("UserList");
+
+                    if (SeekUsersCompleted != null)
+                        SeekUsersCompleted();
+
+                    contentIsAvaliable = true;
+                }));
+            });
         }
 
         /// <summary>
@@ -233,66 +255,6 @@ namespace ReferenceData.ViewModels
             get
             {
                 return busUser.GetAll().ToList();
-            }
-        }
-
-        /// <summary>
-        /// Returns users wrapper into UserViewModel in ObservableCollection
-        /// </summary>
-        public ObservableCollection<UserViewModel> GetSimpleUserList
-        {
-            get
-            {
-                if (userList == null)
-                {
-                    userList = new ObservableCollection<UserViewModel>();
-                    foreach (var user in Users)
-                    {
-                        if (user.Id != 0)
-                            userList.Add(new UserViewModel(this).SetUser(user));
-                    }
-                }
-                 GridBindingComplete();
-                 return userList;
-            }
-            set
-            {
-                userList = value;
-            }
-        }
-
-        /// <summary>
-        /// Returns all subdivisions
-        /// </summary>
-        public Dictionary<int, SubdivisionBusModel> GetSimpleSubdivisionList
-        {
-            get
-            {
-                return getSimpleSubdivisionList;
-            }
-        }
-
-        /// <summary>
-        /// Returns all locations
-        /// </summary>
-        public Dictionary<int, LocationBusModel> GetSimpleLocationList
-        {
-            get
-            {
-                return getSimpleLocationList;
-            }
-        }
-
-        /// <summary>
-        /// Returns all countries
-        /// </summary>
-        public Dictionary<int, CountryBusModel> GetSimpleCountryList
-        {
-            get
-            {
-                if (getSimpleCountryList == null) getSimpleCountryList = busCountry.GetSimpleCountryList();
-
-                return getSimpleCountryList;
             }
         }
 
