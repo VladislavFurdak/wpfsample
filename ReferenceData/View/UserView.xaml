@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="789.727" Width="Auto"
     xmlns:validation="clr-namespace:ReferenceData.Validation">
+
     <Grid ShowGridLines="True" Margin="0,0,0,131"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,7 +28,7 @@
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" Margin="4,10,4,169" Grid.ColumnSpan="2" >
             <StackPanel Orientation="Horizontal">
                 <Label Content="FirstName:" Margin="0,0,4,0" Width="89"/>
-                <TextBox Width="241">
+                <TextBox Width="241" x:Name="FirstName">
                     <TextBox.Text>
                         <Binding Path="SelectedItem.FirstName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>
@@ -39,7 +40,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <Label Content="SecondName:" Margin="0,0,4,0" Width="89"/>
-                <TextBox Width="241">
+                <TextBox Width="241" x:Name="SecondName">
                     <Binding Path="SelectedItem.SecondName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                         <Binding.ValidationRules>
                             <validation:TextBoxValidationRule />

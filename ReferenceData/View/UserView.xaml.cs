@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using ReferenceData.BAL;
 using ReferenceData.BAL.BusModels;
+using ReferenceData.Validation;
 using ReferenceData.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace ReferenceData.View
 
                 if (context == null || context.SelectedItem == null) return;
 
-                //context.SelectedItem.countryId = item.Value.Id;
+                context.SelectedItem.countryId = item.Value.Id;
 
                 var subdivisions = context.busSubdivision.GetAllByCountryId(item.Key).ToDictionary(x => x.Id);
                 this.Subdivision.ItemsSource = subdivisions;
@@ -92,8 +93,6 @@ namespace ReferenceData.View
 
                 var locations = context.busLocation.GetBySubdivisionId(item.Key).ToDictionary(x => x.Id);
                 this.Location.ItemsSource = locations;
-                context.NotifyPropertyChanged("SelectedItem.SubdivisionId");
-
             }
         }
      

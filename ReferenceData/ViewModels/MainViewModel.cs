@@ -138,23 +138,45 @@ namespace ReferenceData.ViewModels
                     var added = busUser.AddBusModel(Mapper.Map<UserBusModel>(SelectedItem));
                     if (added != null)
                     {
-                        var mapToViewNew = Mapper.Map(added, new UserViewModel(this));
-                        userList.Add(mapToViewNew);
-                        isDirty = false;
+                        try
+                        {
+                            var mapToViewNew = Mapper.Map(added, new UserViewModel(this));
+                            userList.Add(mapToViewNew);
+                            isDirty = false;
+                        }
+                        catch (ArgumentException)
+                        {
+                            System.Windows.MessageBox.Show("Please, input correct values");
+                        }
+                        catch
+                        {
+                            System.Windows.MessageBox.Show("Unknown error");
+                        }
                         RefreshGrid();
                     }
                 }
                 else
                 {
-                    var maptoBus = Mapper.Map<UserBusModel>(SelectedItem);
-                    var busUpdated = busUser.UpdateBusModel(maptoBus);
-                    var mapToViewNew = Mapper.Map(busUpdated, new UserViewModel(this));
+                    try
+                    {
+                        var maptoBus = Mapper.Map<UserBusModel>(SelectedItem);
+                        var busUpdated = busUser.UpdateBusModel(maptoBus);
+                        var mapToViewNew = Mapper.Map(busUpdated, new UserViewModel(this));
 
-                    var item = userList.FirstOrDefault(x=>x.Id == SelectedItem.Id);
-                    var index = userList.IndexOf(item);
-                    userList[index].Apply(mapToViewNew);
-                    SelectedItem = userList[index];
-                    isDirty = false;
+                        var item = userList.FirstOrDefault(x => x.Id == SelectedItem.Id);
+                        var index = userList.IndexOf(item);
+                        userList[index].Apply(mapToViewNew);
+                        SelectedItem = userList[index];
+                        isDirty = false;
+                    }
+                    catch (ArgumentException)
+                    {
+                         System.Windows.MessageBox.Show("Please, input correct values");
+                    }
+                    catch
+                    {
+                        System.Windows.MessageBox.Show("Unknown error");
+                    }
                 }
         }
 

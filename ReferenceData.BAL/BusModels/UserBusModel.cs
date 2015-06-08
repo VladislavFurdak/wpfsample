@@ -18,5 +18,13 @@ namespace ReferenceData.BAL.BusModels
         public int? SubdivisionId { get; set; }
         public int? LocationId { get; set; }
         public int? CountryId { get; set; }
+
+        public bool IsValid
+        {
+            get
+            {
+                return !((string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(SecondName) || CountryId == null));
+            }
+        }
     }
 }

@@ -38,12 +38,14 @@ namespace ReferenceData.BAL
 
         public UserBusModel AddBusModel(UserBusModel model)
         {
+          if (!model.IsValid) throw new ArgumentException();
           var Id =  this.Add(Mapper.Map<UserBusModel, User>(model)).Id;
           return Mapper.Map<User, UserBusModel>(Get(Id));
         }
 
         public UserBusModel UpdateBusModel(UserBusModel model)
         {
+            if (!model.IsValid) throw new ArgumentException();
             Update(Mapper.Map<UserBusModel, User>(model));
             return Mapper.Map<User, UserBusModel>(Get(model.Id));
         }
