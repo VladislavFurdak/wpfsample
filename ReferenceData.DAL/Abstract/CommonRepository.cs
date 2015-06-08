@@ -14,7 +14,7 @@ namespace ReferenceData.DAL
     public abstract class CommonRepository<T> : IAddUpdateEntity<T>, IGetAllEntities<T>, IGetEntity<T, int> 
         where T : class, IDataEntity
     {
-        public void AddOrUpdate(T entity)
+        public T AddOrUpdate(T entity)
         {
             using (var connection = new ReferenceDataEntities())
             {
@@ -29,6 +29,7 @@ namespace ReferenceData.DAL
                     connection.Set<T>().Add(entity);
                     connection.SaveChanges();
                 }
+                return entity;
             }
         }
 

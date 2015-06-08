@@ -49,7 +49,7 @@ namespace ReferenceData.BAL
                 throw new NotImplementedException("Add() is not supported for this business entity");
             try
             {
-                repoAdd.AddOrUpdate(model);
+               model = repoAdd.AddOrUpdate(model);
             }
             catch
             {
@@ -63,7 +63,7 @@ namespace ReferenceData.BAL
                 throw new NotImplementedException("Update() is not supported for this business entity");
             try
             {
-                repoUpdate.AddOrUpdate(model);
+                model = repoUpdate.AddOrUpdate(model);
             }
             catch
             {

@@ -8,6 +8,6 @@ namespace ReferenceData.DAL
 {
     public interface IAddUpdateEntity<T>
     {
-         void AddOrUpdate(T country);
+         T AddOrUpdate(T country);
     }
 }
