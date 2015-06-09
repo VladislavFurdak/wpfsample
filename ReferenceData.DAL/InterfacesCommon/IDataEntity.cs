@@ -1,5 +1,4 @@
-﻿
-namespace ReferenceData.DAL
+﻿namespace ReferenceData.DAL
 {
     public interface IDataEntity
     {
